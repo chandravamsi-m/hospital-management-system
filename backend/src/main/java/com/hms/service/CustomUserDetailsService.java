@@ -25,4 +25,5 @@ public class CustomUserDetailsService implements UserDetailsService {
                 Collections.emptyList()  // No roles for now, just basic login
         );
     }
+
 }
