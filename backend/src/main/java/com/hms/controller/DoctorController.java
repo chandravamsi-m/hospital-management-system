@@ -1,8 +1,9 @@
 package com.hms.controller;
 
-import com.hms.model.Doctor;
+import com.hms.dto.DoctorDTO;
 import com.hms.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,26 +16,31 @@ public class DoctorController {
     private DoctorService doctorService;
 
     @PostMapping
-    public Doctor createDoctor(@RequestBody Doctor doctor) {
-        return doctorService.createDoctor(doctor);
+    @PreAuthorize("hasRole('ADMIN')")
+    public DoctorDTO createDoctor(@RequestBody DoctorDTO doctorDTO) {
+        return doctorService.createDoctor(doctorDTO);
     }
 
     @GetMapping
-    public List<Doctor> getAllDoctors() {
+    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'PATIENT', 'RECEPTIONIST')")
+    public List<DoctorDTO> getAllDoctors() {
         return doctorService.getAllDoctors();
     }
 
     @GetMapping("/{id}")
-    public Doctor getDoctor(@PathVariable Long id) {
-        return doctorService.getDoctorById(id);
+    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'PATIENT', 'RECEPTIONIST')")
+    public DoctorDTO getDoctor(@PathVariable Long id) {
+        return doctorService.getDoctorDTOById(id);
     }
 
     @PutMapping("/{id}")
-    public Doctor updateDoctor(@PathVariable Long id, @RequestBody Doctor doctor) {
-        return doctorService.updateDoctor(id, doctor);
+    @PreAuthorize("hasRole('ADMIN')")
+    public DoctorDTO updateDoctor(@PathVariable Long id, @RequestBody DoctorDTO doctorDTO) {
+        return doctorService.updateDoctor(id, doctorDTO);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteDoctor(@PathVariable Long id) {
         doctorService.deleteDoctor(id);
     }

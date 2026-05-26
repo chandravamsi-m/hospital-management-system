@@ -2,13 +2,14 @@ package com.hms.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.time.LocalDate;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Doctor {
+public class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,10 +20,13 @@ public class Doctor {
     private User user;
 
     private String name;
-    private String specialization;
-    private int experience;
     private String email;
-    private String qualification;
-    private String department;
-}
+    private LocalDate dob;
+    private String gender;
+    private String bloodGroup;
+    private String phone;
+    private String address;
 
+    @Column(columnDefinition = "TEXT")
+    private String medicalHistory;
+}
